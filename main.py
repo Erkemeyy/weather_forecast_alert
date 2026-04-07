@@ -1,25 +1,26 @@
-import requests
 import os
-from dotenv import  load_dotenv, dotenv_values
+import requests
+from dotenv import load_dotenv
+from twilio.rest import Client
 
-
-city = "Kyiv"
-lat="50.447731"
-lon="30.542721"
 URL ="https://api.openweathermap.org/data/2.5/forecast"
 load_dotenv()
 weather_forecast ={
     "lat":50.429952,
     "lon":30.4545792,
-    "appid": os.getenv("API_KEY"),
-    "cnt": 4
+    "appid": os.getenv("OWM_API_KEY"),
+    "cnt": 5
 }
+my_number = os.getenv("MY_NUMBER")
+twilio_number = os.getenv("TWILIO_NUMBER")
+account_sid = os.getenv("TWILIO_ACCOUNT_SID")
+auth_token = os.getenv("TWILIO_AUTH_TOKEN")
+client = Client(account_sid, auth_token)
 
 def get_weather_with_lat_lon(url, weather_forecast):
     response = requests.get(url, params=weather_forecast)
+    response.raise_for_status()
     data = response.json()
-    status_code = response.status_code
-    print(status_code)
     return data
 
 weatherDictForFourDays = get_weather_with_lat_lon(URL, weather_forecast)
@@ -30,6 +31,8 @@ for elements in weatherDictForFourDays["list"]:
         will_rain = True
 
 if will_rain:
-    print("Bring an umbrella")
-# print(get_weather_with_lat_lon(url, weather_forecast).get("list")[0].get("weather")[0].get("id"))
-
+    message = client.messages.create(
+        from_=f'whatsapp:{twilio_number}',
+        body="It's going to rain today. Remember to bring an umbrella",
+        to=f'whatsapp:{my_number}'
+    )
