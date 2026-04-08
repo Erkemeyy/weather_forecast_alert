@@ -2,7 +2,7 @@ name: Daily Rain Alert
 
 on:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: '15 3 * * *'
 
   workflow_dispatch:
 
