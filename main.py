@@ -32,7 +32,7 @@ for elements in weatherDictForFourDays["list"]:
 
 if will_rain:
     message = client.messages.create(
-        from_=f'whatsapp:{twilio_number}',
+        from_=twilio_number,
         body="It's going to rain today. Remember to bring an umbrella",
-        to=f'whatsapp:{my_number}'
+        to=my_number
     )
