@@ -1,4 +1,6 @@
 import os
+import time
+
 import requests
 from dotenv import load_dotenv
 from twilio.rest import Client
@@ -32,7 +34,9 @@ for elements in weatherDictForFourDays["list"]:
 
 if will_rain:
     message = client.messages.create(
-        from_=twilio_number,
+        from_=f'whatsapp:{twilio_number}',
         body="It's going to rain today. Remember to bring an umbrella",
-        to=my_number
+        to=f'whatsapp:{my_number}'
     )
+
+
