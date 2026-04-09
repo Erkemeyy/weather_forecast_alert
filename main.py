@@ -38,5 +38,11 @@ if will_rain:
         body="It's going to rain today. Remember to bring an umbrella",
         to=f'whatsapp:{my_number}'
     )
+else:
+    message = client.messages.create(
+        from_=f'whatsapp:{twilio_number}',
+        body="It's not raining today",
+        to=f'whatsapp:{my_number}'
+    )
 
 
